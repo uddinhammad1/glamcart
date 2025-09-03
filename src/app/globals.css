@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -23,4 +26,67 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.semiTitle{
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  color: #242427;
+  opacity: 80%;
+}
+.bannerText{
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 66px;
+  color: #242427;
+}
+.bannerPara{
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #6C6C6E;
+  margin-right: 69px;
+}
+.counter{
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  color: #242427;
+}
+.counterText{
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #242427;
+}
+.redBtn{
+  background-color: #8B0000;
+  color: white;
+}
+.redBtn span{
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  margin-right: 10px;
+  
+}
+.whtBtn{
+  background-color: #fff;
+}
+.whtBtn .btn{
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  margin-right: 10px;
+  color: #8B0000;
+}
+
+.rdbg{
+  background-color: #8B0000;
+}
+body{
+  background-color: #f9fdee;
+  overflow-x: hidden !important;
 }
