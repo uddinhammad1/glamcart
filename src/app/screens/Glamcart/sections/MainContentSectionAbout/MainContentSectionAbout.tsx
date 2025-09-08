@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent } from "../../../../components/ui/card";
 
-export const MainContentSection: React.FC = () => {
+export const MainContentSectionAbout: React.FC = () => {
   const features = [
     {
       icon: "/offline-pin.png",
@@ -27,6 +27,9 @@ export const MainContentSection: React.FC = () => {
           />
 
           <div className="flex flex-col space-y-6">
+            <h6 className="font-semibold text-[#8b0000] text-lg md:text-lg leading-snug">
+              About Us
+            </h6>
             <h2 className="font-semibold text-[#242427] text-3xl md:text-5xl leading-snug">
               ELEVATE YOUR EVERYDAY GLAM
             </h2>
