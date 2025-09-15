@@ -114,7 +114,7 @@ export const FooterSection: React.FC = () => {
               <h3 className="font-semibold text-white text-xl mb-3">
                 Office Location
               </h3>
-              <p className="text-[#ffffffcc] text-base">New York, USA</p>
+              <p className="text-[#ffffffcc] text-base">Orlando Florida, USA</p>
             </div>
 
             <div>
