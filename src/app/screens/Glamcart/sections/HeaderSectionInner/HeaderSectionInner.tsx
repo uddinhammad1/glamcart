@@ -41,7 +41,7 @@ export const HeaderSectionInner: React.FC = () => {
         <div className="flex flex-col lg:flex-row relative">
           {/* Left Section */}
           <div className="w-full lg:w-[45%] lg:pr-8 order-2 lg:order-1">
-           
+
           </div>
 
 
@@ -49,7 +49,7 @@ export const HeaderSectionInner: React.FC = () => {
           {/* Right Section */}
           <div className="w-full lg:w-[55%] relative order-1 lg:order-2 flex flex-col items-center lg:block">
 
-                       {/* Navigation */}
+            {/* Navigation */}
             <nav
               className="
       flex items-center relative z-90 
@@ -90,7 +90,13 @@ export const HeaderSectionInner: React.FC = () => {
 
                 <ShoppingCartIcon className="hidden lg:block w-7 h-7 text-[#8b0000]" />
                 <SearchIcon className="hidden lg:block w-7 h-7 text-[#8b0000]" />
-
+                <Link href="/login">
+                  <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
+                    <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
+                      Login
+                    </span>
+                  </Button>
+                </Link>
                 <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
                   <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
                     Sign Up
@@ -106,27 +112,39 @@ export const HeaderSectionInner: React.FC = () => {
                       key={index}
                       className="flex items-center justify-between"
                     >
-                      <span className="font-medium text-[#242427] text-base [font-family:'Poppins',Helvetica]">
-                        {item.label}
-                      </span>
-                      {item.hasDropdown && (
-                        <ChevronDownIcon className="w-5 h-5 text-[#242427]" />
-                      )}
+                      <Link href={item.href}>
+                        <span className="font-medium text-[#242427] text-base [font-family:'Poppins',Helvetica]">
+                          {item.label}
+                        </span>
+
+                        {item.hasDropdown && (
+                          <ChevronDownIcon className="w-5 h-5 text-[#242427]" />
+                        )}
+                      </Link>
                     </div>
                   ))}
-
+                  
                   <div className="flex items-center gap-4 border-t pt-4">
                     <ShoppingCartIcon className="w-6 h-6 text-[#242427]" />
+
                     <SearchIcon className="w-6 h-6 text-[#242427]" />
+                    <Link href="/login">
+                    <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
+
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/signup">
                     <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
                       Sign Up
                     </Button>
+                    </Link>
                   </div>
                 </div>
               )}
             </nav>
 
-           
+
           </div>
 
         </div>

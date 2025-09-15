@@ -18,11 +18,11 @@ const statistics = [
 ];
 
 const starRatings = [
-  { src: "/Star-2.svg", alt: "Star" },
-  { src: "/Star-2.svg", alt: "Star" },
-  { src: "/Star-2.svg", alt: "Star" },
-  { src: "/Star-2.svg", alt: "Star" },
-  { src: "/Star-5.svg", alt: "Star" },
+  { src: "/star-2.svg", alt: "Star" },
+  { src: "/star-2.svg", alt: "Star" },
+  { src: "/star-2.svg", alt: "Star" },
+  { src: "/star-2.svg", alt: "Star" },
+  { src: "/star-5.svg", alt: "Star" },
 ];
 const navigationItems = [
   { label: "Home", href: "/", hasDropdown: false },
@@ -163,12 +163,20 @@ export const HeaderSection: React.FC = () => {
 
                 <ShoppingCartIcon className="hidden lg:block w-7 h-7 text-[#fff]" />
                 <SearchIcon className="hidden lg:block w-7 h-7 text-[#fff]" />
-
-                <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
-                  <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
-                    Sign Up
-                  </span>
-                </Button>
+                <Link href="/login">
+                  <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
+                    <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
+                      Login
+                    </span>
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
+                    <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
+                      Sign Up
+                    </span>
+                  </Button>
+                </Link>
               </div>
 
               {/* Mobile Dropdown */}
@@ -179,21 +187,32 @@ export const HeaderSection: React.FC = () => {
                       key={index}
                       className="flex items-center justify-between"
                     >
-                      <span className="font-medium text-[#242427] text-base [font-family:'Poppins',Helvetica]">
-                        {item.label}
-                      </span>
-                      {item.hasDropdown && (
-                        <ChevronDownIcon className="w-5 h-5 text-[#242427]" />
-                      )}
+                      <Link href={item.href}>
+                        <span className="font-medium text-[#242427] text-base [font-family:'Poppins',Helvetica]">
+                          {item.label}
+                        </span>
+
+                        {item.hasDropdown && (
+                          <ChevronDownIcon className="w-5 h-5 text-[#242427]" />
+                        )}
+                      </Link>
                     </div>
                   ))}
 
                   <div className="flex items-center gap-4 border-t pt-4">
                     <ShoppingCartIcon className="w-6 h-6 text-[#242427]" />
                     <SearchIcon className="w-6 h-6 text-[#242427]" />
-                    <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
-                      Sign Up
-                    </Button>
+                    <Link href="/login">
+                      <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
+
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/signup">
+                      <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
+                        Sign Up
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               )}
