@@ -18,11 +18,11 @@ const statistics = [
 ];
 
 const starRatings = [
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-5.svg", alt: "Star" },
+  { src: "/Star-2.svg", alt: "Star" },
+  { src: "/Star-2.svg", alt: "Star" },
+  { src: "/Star-2.svg", alt: "Star" },
+  { src: "/Star-2.svg", alt: "Star" },
+  { src: "/Star-5.svg", alt: "Star" },
 ];
 const navigationItems = [
   { label: "Home", href: "/", hasDropdown: false },
