@@ -97,11 +97,13 @@ export const HeaderSectionInner: React.FC = () => {
                     </span>
                   </Button>
                 </Link>
+                  <Link href="/signup">
                 <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
                   <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
                     Sign Up
                   </span>
                 </Button>
+                  </Link>
               </div>
 
               {/* Mobile Dropdown */}
