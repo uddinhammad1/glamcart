@@ -2,6 +2,7 @@ import { ArrowRightIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent } from "../../../../components/ui/card";
+import Link from "next/link";
 
 const heroCards = [
   {
@@ -39,7 +40,7 @@ export const HeroSection: React.FC = () => {
               <div className="text-white/70 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
                 {card.description}
               </div>
-
+          <Link href="/shop">
               <Button
                 variant="outline"
                 className="w-fit px-6 py-3 rounded-lg border border-white text-black hover:bg-white hover:text-black transition"
@@ -47,6 +48,7 @@ export const HeroSection: React.FC = () => {
                 Show More
                 <ArrowRightIcon className="w-5 h-5 ml-2" />
               </Button>
+              </Link>
             </CardContent>
           </Card>
         ))}

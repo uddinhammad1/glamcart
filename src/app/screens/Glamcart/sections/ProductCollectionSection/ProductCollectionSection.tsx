@@ -2,6 +2,7 @@ import { ArrowRightIcon } from "lucide-react";
 import React from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent } from "../../../../components/ui/card";
+import Link from "next/link";
 
 const productCards = [
   {
@@ -57,7 +58,8 @@ export const ProductCollectionSection: React.FC = () => {
                       {product.description}
                     </p>
                   </div>
-
+                <Link href="/shop">
+                
                   <Button
                     variant="outline"
                     className="w-[150px] md:w-[177px] h-[50px] md:h-[57px] bg-transparent border-white text-white hover:bg-white hover:text-black rounded-[9px] gap-2 px-6 py-3"
@@ -67,6 +69,7 @@ export const ProductCollectionSection: React.FC = () => {
                     </span>
                     <ArrowRightIcon className="w-[18px] h-[18px]" />
                   </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>

@@ -2,6 +2,7 @@ import { ArrowRightIcon } from "lucide-react";
 import React from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent } from "../../../../components/ui/card";
+import Link from "next/link";
 
 export const MainContentSection: React.FC = () => {
   const features = [
@@ -68,10 +69,12 @@ export const MainContentSection: React.FC = () => {
               Style meets savings—upgrade your beauty routine without breaking the
               bank.
             </p>
+            <Link href="/about">
             <Button className="bg-[#8b0000] hover:bg-[#8b0000]/90 rounded-lg px-6 py-3 text-white w-fit flex items-center gap-2">
               Learn More
               <ArrowRightIcon className="w-5 h-5" />
             </Button>
+            </Link>
           </div>
 
           {/* Middle Image */}

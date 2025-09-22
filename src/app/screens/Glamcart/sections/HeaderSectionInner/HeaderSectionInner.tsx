@@ -3,31 +3,16 @@ import Link from "next/link";
 import {
   ChevronDownIcon,
   SearchIcon,
-  ShoppingCartIcon,
   MenuIcon,
   XIcon,
 } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
-import { Card, CardContent } from "../../../../components/ui/card";
+import { MiniCart } from "../minicart/minicart";
 
-
-const statistics = [
-  { value: "12K+", label: "PRODUCTS SOLD" },
-  { value: "213+", label: "BRANDS AVAILABLE" },
-  { value: "8,5K+", label: "HAPPY CUSTOMERS" },
-];
-
-const starRatings = [
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-2.svg", alt: "Star" },
-  { src: "/star-5.svg", alt: "Star" },
-];
 const navigationItems = [
   { label: "Home", href: "/", hasDropdown: false },
   { label: "About", href: "/about", hasDropdown: false },
-  { label: "Shop", href: "#", hasDropdown: false },
+  { label: "Shop", href: "/shop", hasDropdown: false },
   { label: "Faq", href: "/faq", hasDropdown: false },
   { label: "Contact", href: "/contact", hasDropdown: false },
 ];
@@ -39,31 +24,26 @@ export const HeaderSectionInner: React.FC = () => {
     <header className="relative h-auto bg-transparent">
       <div className="relative w-full">
         <div className="flex flex-col lg:flex-row relative">
-          {/* Left Section */}
-          <div className="w-full lg:w-[45%] lg:pr-8 order-2 lg:order-1">
-
-          </div>
-
-
+          {/* Left Section (optional) */}
+          <div className="w-full lg:w-[45%] order-2 lg:order-1"></div>
 
           {/* Right Section */}
           <div className="w-full lg:w-[55%] relative order-1 lg:order-2 flex flex-col items-center lg:block">
-
-            {/* Navigation */}
             <nav
               className="
-      flex items-center relative z-90 
-      pt-[40px] sm:pt-[50px] lg:pt-[60px] pb-6 sm:pb-8
-      lg:translate-x-[-350px] lg:gap-[320px] 
-      justify-between lg:justify-start w-full
-    "
+                flex items-center relative z-90 
+                pt-[40px] sm:pt-[50px] lg:pt-[60px] 
+                pb-6 sm:pb-8 
+                lg:translate-x-[-350px] lg:gap-[320px] 
+                justify-between lg:justify-start w-full
+              "
             >
               {/* Desktop Nav Items */}
               <div className="hidden lg:flex items-center gap-[30px]">
                 {navigationItems.map((item, index) => (
                   <div key={index} className="flex items-center">
                     <Link href={item.href}>
-                      <span className="font-medium text-[#242427] text-base [font-family:'Poppins',Helvetica] cursor-pointer hover:text-[#8b0000]">
+                      <span className="font-medium text-[#242427] text-base font-poppins cursor-pointer hover:text-[#8b0000]">
                         {item.label}
                       </span>
                     </Link>
@@ -76,9 +56,9 @@ export const HeaderSectionInner: React.FC = () => {
 
               {/* Right Icons */}
               <div className="flex items-center gap-4 ml-auto pr-[20px]">
-                {/* Hamburger Menu (Mobile Only) */}
+                {/* Hamburger Menu */}
                 <button
-                  className="lg:hidden text-white"
+                  className="lg:hidden"
                   onClick={() => setMenuOpen(!menuOpen)}
                 >
                   {menuOpen ? (
@@ -88,67 +68,70 @@ export const HeaderSectionInner: React.FC = () => {
                   )}
                 </button>
 
-                <ShoppingCartIcon className="hidden lg:block w-7 h-7 text-[#8b0000]" />
+                {/* ✅ MiniCart instead of static ShoppingCart */}
+                <div className="hidden lg:block">
+                  <MiniCart />
+                </div>
+
+                {/* Search */}
                 <SearchIcon className="hidden lg:block w-7 h-7 text-[#8b0000]" />
+
+                {/* Auth Buttons */}
                 <Link href="/login">
                   <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
-                    <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
+                    <span className="text-[#8b0000] font-medium text-base font-poppins">
                       Login
                     </span>
                   </Button>
                 </Link>
-                  <Link href="/signup">
-                <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
-                  <span className="text-[#8b0000] font-medium text-base [font-family:'Poppins',Helvetica]">
-                    Sign Up
-                  </span>
-                </Button>
-                  </Link>
+                <Link href="/signup">
+                  <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
+                    <span className="text-[#8b0000] font-medium text-base font-poppins">
+                      Sign Up
+                    </span>
+                  </Button>
+                </Link>
               </div>
 
               {/* Mobile Dropdown */}
               {menuOpen && (
                 <div className="absolute top-full right-0 mt-2 w-56 bg-white shadow-lg rounded-lg p-4 flex flex-col gap-4 lg:hidden">
                   {navigationItems.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between"
-                    >
+                    <div key={index} className="flex items-center justify-between">
                       <Link href={item.href}>
-                        <span className="font-medium text-[#242427] text-base [font-family:'Poppins',Helvetica]">
+                        <span className="font-medium text-[#242427] text-base font-poppins">
                           {item.label}
                         </span>
-
                         {item.hasDropdown && (
                           <ChevronDownIcon className="w-5 h-5 text-[#242427]" />
                         )}
                       </Link>
                     </div>
                   ))}
-                  
+
                   <div className="flex items-center gap-4 border-t pt-4">
-                    <ShoppingCartIcon className="w-6 h-6 text-[#242427]" />
+                    {/* Mobile Cart → simple link */}
+                    <Link href="/cart" className="relative">
+                      <MiniCart />
+                    </Link>
 
                     <SearchIcon className="w-6 h-6 text-[#242427]" />
-                    <Link href="/login">
-                    <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
 
-                      Login
-                    </Button>
-                  </Link>
-                  <Link href="/signup">
-                    <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
-                      Sign Up
-                    </Button>
+                    <Link href="/login">
+                      <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/signup">
+                      <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
+                        Sign Up
+                      </Button>
                     </Link>
                   </div>
                 </div>
               )}
             </nav>
-
-
           </div>
-
         </div>
       </div>
     </header>

@@ -3,17 +3,18 @@ import React from "react";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent } from "../../../../components/ui/card";
 import { Input } from "../../../../components/ui/input";
+import Link from "next/link";
 
 const exploreLinks = [
-  { label: "Resources", href: "#" },
+  { label: "Shop", href: "/shop" },
   { label: "Blog", href: "#" },
   { label: "Documents", href: "#" },
 ];
 
 const menuLinks = [
-  { label: "Home", href: "#" },
-  { label: "About", href: "#" },
-  { label: "Contact", href: "#" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const FooterSection: React.FC = () => {
@@ -38,15 +39,18 @@ export const FooterSection: React.FC = () => {
                 </p>
 
                 <div className="flex flex-wrap gap-4">
+                  <Link href="/shop">
                   <Button className="bg-white text-[#8b0000] hover:bg-white/90 font-medium text-base h-12 px-6 rounded-lg flex items-center gap-2">
                     Shop Now
                     <ShoppingCartIcon className="w-5 h-5" />
                   </Button>
-
+                  </Link>
+                  <Link href="/about">
                   <Button className="bg-white text-[#8b0000] hover:bg-white/90 font-medium text-base h-12 px-6 rounded-lg flex items-center gap-2">
                     See Detail
                     <ArrowRightIcon className="w-5 h-5" />
                   </Button>
+                  </Link>
                 </div>
               </div>
 
@@ -114,7 +118,7 @@ export const FooterSection: React.FC = () => {
               <h3 className="font-semibold text-white text-xl mb-3">
                 Office Location
               </h3>
-              <p className="text-[#ffffffcc] text-base">Orlando Florida, USA</p>
+              <p className="text-[#ffffffcc] text-base">New York, USA</p>
             </div>
 
             <div>

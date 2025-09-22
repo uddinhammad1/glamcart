@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Montserrat, Poppins } from "next/font/google";
-
+import { CartProvider } from "./contexts/CartContext";
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
        
-        {children}
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );
