@@ -40,28 +40,22 @@ export const MostPopularProductsSection: React.FC = () => {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
         {/* Left Text Section */}
         <div className="flex-1 max-w-full lg:max-w-[390px]">
-          <h2
-            className="font-montserrat font-semibold text-[#242427] 
+          <h2 className="font-montserrat font-semibold text-[#242427] 
                          text-2xl sm:text-3xl md:text-4xl lg:text-[45px] 
-                         leading-snug mb-6"
-          >
+                         leading-snug mb-6">
             MOST POPULAR PRODUCT
           </h2>
 
-          <p
-            className="font-poppins font-normal text-[#6c6c6e] 
+          <p className="font-poppins font-normal text-[#6c6c6e] 
                         text-sm sm:text-base md:text-[15px] 
-                        leading-relaxed mb-6"
-          >
+                        leading-relaxed mb-6">
             Our bestsellers are loved by thousands for their quality, style, and
             lasting finish. From bold lips to flawless blends, these picks never
             go out of trend.
           </p>
           <Link href="/about">
-            <Button
-              className="h-auto bg-[#8b0000] hover:bg-[#8b0000]/90 rounded-[9px] 
-                             px-5 sm:px-6 py-2.5 sm:py-3 gap-2.5"
-            >
+            <Button className="h-auto bg-[#8b0000] hover:bg-[#8b0000]/90 rounded-[9px] 
+                             px-5 sm:px-6 py-2.5 sm:py-3 gap-2.5">
               <span className="font-poppins font-medium text-white text-sm sm:text-base">
                 Learn More
               </span>
@@ -76,10 +70,8 @@ export const MostPopularProductsSection: React.FC = () => {
 
         {/* Right Products Section */}
         <div className="flex-1 w-full">
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 
-                          overflow-x-auto lg:overflow-visible pb-4"
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 
+                          overflow-x-auto lg:overflow-visible pb-4">
             {products.map((product) => (
               <Card
                 key={product.id}
@@ -97,19 +89,15 @@ export const MostPopularProductsSection: React.FC = () => {
                   </div>
 
                   {/* Product Name */}
-                  <div
-                    className="font-montserrat font-semibold text-[#242427] 
-                                  text-sm sm:text-base mb-2"
-                  >
+                  <div className="font-montserrat font-semibold text-[#242427] 
+                                  text-sm sm:text-base mb-2">
                     {product.name}
                   </div>
 
                   {/* Price + Button */}
                   <div className="flex items-center justify-between mt-auto">
-                    <span
-                      className="text-[#242427] font-montserrat font-semibold 
-                                      text-sm sm:text-base"
-                    >
+                    <span className="text-[#242427] font-montserrat font-semibold 
+                                      text-sm sm:text-base">
                       ${product.price}
                     </span>
                     <button
