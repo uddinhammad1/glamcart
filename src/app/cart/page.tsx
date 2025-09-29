@@ -3,6 +3,7 @@ import React from "react";
 import { useCart } from "../contexts/CartContext";
 import { HeaderSectionInner } from "../screens/Glamcart/sections/HeaderSectionInner/HeaderSectionInner";
 import { FooterSection } from "../screens/Glamcart/sections/FooterSection/FooterSection";
+import Link from "next/link";
 
 export default function CartPage() {
     const { cart, addToCart, removeFromCart, clearCart } = useCart();
@@ -43,7 +44,7 @@ export default function CartPage() {
                                     className="flex items-center justify-between py-4"
                                 >
                                     <div className="flex items-center gap-4">
-                                        
+
                                         <div>
                                             <p className="font-semibold">{item.name}</p>
                                             <p className="text-sm text-gray-500">
@@ -81,9 +82,11 @@ export default function CartPage() {
                                 >
                                     Clear Cart
                                 </button>
-                                <button className="bg-[#8b0000] text-white px-6 py-2 rounded hover:bg-red-700">
-                                    Checkout
-                                </button>
+                                <Link href="/checkout">
+                                    <button className="bg-[#8b0000] text-white px-6 py-2 rounded hover:bg-red-700">
+                                        Checkout
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

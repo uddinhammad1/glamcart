@@ -130,9 +130,11 @@ export default function Shop() {
                     .reduce((acc, item) => acc + item.price * item.quantity, 0)
                     .toFixed(2)}
                 </div>
+                <Link href="/checkout">
                 <button className="mt-4 w-full bg-[#8b0000] text-white py-2 rounded hover:bg-red-700">
                   Checkout
                 </button>
+                </Link>
               </>
             )}
           </div>

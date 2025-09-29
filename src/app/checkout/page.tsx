@@ -2,16 +2,27 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCart } from "../contexts/CartContext";
 import { Button } from "../components/ui/button";
 import { FooterSection } from "../screens/Glamcart/sections/FooterSection/FooterSection";
 import { HeaderSectionInner } from "../screens/Glamcart/sections/HeaderSectionInner/HeaderSectionInner";
 
+// ✅ Safe Image Component
+function SafeImage({
+  src,
+  alt,
+  className,
+}: {
+  src?: string;
+  alt: string;
+  className?: string;
+}) {
+  const valid = src && src.trim() !== "" ? src : "/placeholder.png";
+  return <img src={valid} alt={alt} className={className} />;
+}
+
 export default function CheckoutPage() {
   const { cart, removeFromCart, clearCart } = useCart();
-  const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
@@ -40,7 +51,6 @@ export default function CheckoutPage() {
     try {
       setLoading(true);
 
-      // 🔥 Call API route for checkout
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,10 +60,8 @@ export default function CheckoutPage() {
       if (!res.ok) throw new Error("Failed to create checkout session");
 
       const data = await res.json();
-
       if (data.url) {
-        // redirect to payment page (Stripe/PayPal)
-        window.location.href = data.url;
+        window.location.href = data.url; // redirect to Stripe
       } else {
         alert("Something went wrong. Please try again.");
       }
@@ -65,7 +73,7 @@ export default function CheckoutPage() {
     }
   };
 
-  // 🚫 Empty cart view
+  // 🚫 Empty cart
   if (cart.length === 0) {
     return (
       <section className="bg-[#f9fdee] min-h-screen flex flex-col">
@@ -119,7 +127,7 @@ export default function CheckoutPage() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-10 md:py-16 grid md:grid-cols-2 gap-10 flex-1">
-        {/* 📝 Checkout Form */}
+        {/* 📝 Form */}
         <form
           onSubmit={handleCheckout}
           className="space-y-4 bg-white p-6 rounded-lg shadow-md"
@@ -158,11 +166,7 @@ export default function CheckoutPage() {
                 className="flex items-center justify-between border-b pb-4"
               >
                 <div className="flex items-center gap-4">
-                  <img
-                    src={item.image || "/placeholder.png"}
-                    alt={item.name}
-                    className="w-20 h-20 object-cover rounded"
-                  />
+                 
                   <div>
                     <h3 className="text-lg font-medium">{item.name}</h3>
                     <p className="text-gray-600">
