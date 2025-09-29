@@ -5,6 +5,7 @@ import { HeaderSectionInner } from "../screens/Glamcart/sections/HeaderSectionIn
 import { Card, CardContent } from "../components/ui/card";
 import { supabase } from "../lib/supabaseClient";
 import { useCart } from "../contexts/CartContext"; // ✅ context import
+import Link from "next/link";
 
 export default function Shop() {
   const [products, setProducts] = useState<any[]>([]);
@@ -71,7 +72,7 @@ export default function Shop() {
                         />
                       </div>
                       <div className="font-semibold text-[#242427] mb-2">
-                        {product.name}
+                        <Link href={`/product/${product.id}`}>{product.name}</Link>
                       </div>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="text-[#242427] font-semibold">

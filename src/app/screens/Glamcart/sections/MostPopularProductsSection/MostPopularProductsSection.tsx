@@ -91,7 +91,7 @@ export const MostPopularProductsSection: React.FC = () => {
                   {/* Product Name */}
                   <div className="font-montserrat font-semibold text-[#242427] 
                                   text-sm sm:text-base mb-2">
-                    {product.name}
+                    <Link href={`/product/${product.id}`}>{product.name}</Link>
                   </div>
 
                   {/* Price + Button */}

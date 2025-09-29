@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Montserrat, Poppins } from "next/font/google";
 import { CartProvider } from "./contexts/CartContext";
+
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -20,9 +21,9 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
-       
+    <html lang="en" className={`${montserrat.variable} ${poppins.variable}`}>
+      {/* ✅ suppressHydrationWarning added */}
+      <body suppressHydrationWarning={true}>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

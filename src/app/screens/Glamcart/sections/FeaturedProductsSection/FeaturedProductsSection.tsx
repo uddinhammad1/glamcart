@@ -94,7 +94,7 @@ export const FeaturedProductsSection = (): React.ReactElement => {
                   src={product.image_url || "/placeholder.png"}
                 />
                 <h3 className="[font-family:'Montserrat',Helvetica] font-semibold text-black text-lg md:text-xl mb-2">
-                  {product.name}
+                  <Link href={`/product/${product.id}`}>{product.name}</Link>
                 </h3>
                 
                 <div className="flex flex-wrap items-center gap-3 mb-4">

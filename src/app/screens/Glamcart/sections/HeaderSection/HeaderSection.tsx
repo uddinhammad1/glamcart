@@ -170,7 +170,7 @@ export const HeaderSection: React.FC = () => {
                               </button>
 
                             </Link>
-                            <Link href="#" className="flex-1">
+                            <Link href="/checkout" className="flex-1">
                               <button className="w-full bg-[#8b0000] text-white py-1 rounded-md">
                                 Checkout
                               </button>
