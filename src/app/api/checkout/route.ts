@@ -17,10 +17,10 @@ export async function POST(req: Request) {
       success_url: "http://localhost:3000/success",
       cancel_url: "http://localhost:3000/cancel",
       customer_email: body.email,
-      shipping_address_collection: { allowed_countries: ["US", "CA", "PK"] },
+      shipping_address_collection: { allowed_countries: ["US", "CA"] },
       line_items: body.cart.map((item: any) => ({
         price_data: {
-          currency: "usd",
+          currency: "CAD",
           product_data: {
             name: item.name,
             images: item.image ? [item.image] : [],
