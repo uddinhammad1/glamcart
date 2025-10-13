@@ -1,7 +1,8 @@
 export interface Product {
-    id: string; // ✅ must match Supabase DB column
+    id: string;
     name: string;
+    description?: string;
     price: number;
-    description?: string | null;
-    image_url?: string | null;
+    image_url?: string;
+    created_at?: string;
 }
