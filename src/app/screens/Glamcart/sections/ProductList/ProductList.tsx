@@ -7,7 +7,7 @@ import type { Product } from "../../../../types/Product";
 export default function ProductList({
   onEdit,
 }: {
-  onEdit: (product: Product) => void;
+  onEdit?: (product: Product) => void;
 }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +78,7 @@ export default function ProductList({
 
             <div className="flex gap-3">
               <button
-                onClick={() => onEdit(product)}
+                onClick={() => onEdit?.(product)}  // ✅ safe optional call
                 className="w-1/2 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
                 Edit
