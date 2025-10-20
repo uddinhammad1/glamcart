@@ -77,24 +77,7 @@ export const FooterSection: React.FC = () => {
             />
           </div>
 
-          {/* Explore */}
-          <nav className="flex flex-col items-start">
-            <h3 className="font-semibold text-white text-xl mb-4">Explore</h3>
-            <div className="flex flex-col gap-3">
-              {exploreLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="text-[#ffffffcc] hover:text-white transition-colors text-base"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-            <div className="mt-6">
-              <img className="h-12 w-auto" alt="Social" src="/social.png" />
-            </div>
-          </nav>
+          
 
           {/* Menu */}
           <nav className="flex flex-col items-start">

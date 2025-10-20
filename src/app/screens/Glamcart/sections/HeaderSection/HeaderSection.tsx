@@ -203,6 +203,51 @@ export const HeaderSection: React.FC = () => {
                 )}
               </div>
             </nav>
+
+              {/* IMAGE */}
+            <img
+              className="w-full max-w-[300px] sm:max-w-[540px] lg:w-[570px] h-auto mx-auto lg:mx-0 relative lg:absolute top-0 lg:top-[287px] left-0 lg:left-[150px] object-cover z-20"
+              alt="Drop down img"
+              src="/drop-down-img-1-1.png"
+            />
+
+            {/* CARD 1 */}
+            <Card className="hidden sm:block w-full max-w-[220px] lg:w-[255px] h-auto mx-auto mt-6 lg:mt-0 relative lg:absolute lg:top-56 lg:left-[180px] bg-white rounded-[14px] shadow-[0px_4px_39.3px_#2424270a] border-0 z-10">
+              <CardContent className="p-6 sm:p-8 lg:p-10">
+                <div className="flex items-center gap-2 mb-4">
+                  {starRatings.map((star, index) => (
+                    <img key={index} className="w-[15px] h-[15px]" alt={star.alt} src={star.src} />
+                  ))}
+                </div>
+                <div className="mb-4 sm:mb-6 font-semibold text-[#130339] text-sm sm:text-[15px] leading-[24px] sm:leading-[34px] [font-family:'Montserrat',Helvetica]">
+                  10,000+ CLIENT HAPPY
+                </div>
+                <div className="font-normal text-[#6c6c6e] text-xs leading-[20px] sm:leading-[22.8px] [font-family:'Poppins',Helvetica]">
+                  Lorem ipsum dolor sit amet, consectetur
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* CARD 2 */}
+            <Card className="hidden sm:block w-full max-w-[140px] lg:w-28 h-auto mx-auto mt-6 lg:mt-0 relative lg:absolute lg:top-[542px] lg:left-[110px] bg-white rounded-[11px] shadow-[0px_4px_39.3px_#2424270a] border-0 z-30">
+              <CardContent className="p-4 flex items-center justify-center h-full">
+                <div className="font-semibold text-[#242427] text-sm sm:text-base text-center [font-family:'Montserrat',Helvetica]">
+                  DISC UP TO 50%
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* CARD 3 */}
+            <Card className="w-full max-w-[320px] lg:w-80 h-auto mx-auto mt-6 lg:mt-0 relative lg:absolute lg:top-[733px] lg:left-[320px] bg-white rounded-[11px] shadow-[0px_4px_39.3px_#2424270a] border-0 z-10">
+              <CardContent className="p-6 sm:p-8 lg:p-10">
+                <div className="mb-4 sm:mb-6 font-semibold text-[#242427] text-base sm:text-[19px] [font-family:'Montserrat',Helvetica]">
+                  LIGHTWEIGHT & BREATHABLE MATERIAL
+                </div>
+                <div className="font-normal text-[#6c6c6e] text-xs leading-[20px] sm:leading-[22.8px] [font-family:'Poppins',Helvetica]">
+                  Our products are crafted with skin-friendly formulas that keep you comfortable and confident all day long.
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
