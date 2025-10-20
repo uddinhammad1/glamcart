@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ChevronDownIcon,
   SearchIcon,
   MenuIcon,
   XIcon,
+  LogOutIcon,
+  UserIcon,
 } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import { MiniCart } from "../minicart/minicart";
+import { supabase } from "../../../../lib/supabaseClient"; // ✅ Ensure your client path is correct
 
 const navigationItems = [
   { label: "Home", href: "/", hasDropdown: false },
@@ -19,12 +23,37 @@ const navigationItems = [
 
 export const HeaderSectionInner: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data?.user || null);
+    };
+    getUser();
+
+    // Optional: listen to auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.href = "/"; // redirect to home after logout
+  };
 
   return (
     <header className="relative h-auto bg-transparent">
       <div className="relative w-full">
         <div className="flex flex-col lg:flex-row relative">
-          {/* Left Section (optional) */}
+          {/* Left Section */}
           <div className="w-full lg:w-[45%] order-2 lg:order-1"></div>
 
           {/* Right Section */}
@@ -38,7 +67,7 @@ export const HeaderSectionInner: React.FC = () => {
                 justify-between lg:justify-start w-full
               "
             >
-              {/* Desktop Nav Items */}
+              {/* Desktop Nav */}
               <div className="hidden lg:flex items-center gap-[30px]">
                 {navigationItems.map((item, index) => (
                   <div key={index} className="flex items-center">
@@ -56,7 +85,7 @@ export const HeaderSectionInner: React.FC = () => {
 
               {/* Right Icons */}
               <div className="flex items-center gap-4 ml-auto pr-[20px]">
-                {/* Hamburger Menu */}
+                {/* Mobile Menu */}
                 <button
                   className="lg:hidden"
                   onClick={() => setMenuOpen(!menuOpen)}
@@ -68,7 +97,7 @@ export const HeaderSectionInner: React.FC = () => {
                   )}
                 </button>
 
-                {/* ✅ MiniCart instead of static ShoppingCart */}
+                {/* Mini Cart */}
                 <div className="hidden lg:block">
                   <MiniCart />
                 </div>
@@ -76,21 +105,49 @@ export const HeaderSectionInner: React.FC = () => {
                 {/* Search */}
                 <SearchIcon className="hidden lg:block w-7 h-7 text-[#8b0000]" />
 
-                {/* Auth Buttons */}
-                <Link href="/login">
-                  <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
-                    <span className="text-[#8b0000] font-medium text-base font-poppins">
-                      Login
-                    </span>
-                  </Button>
-                </Link>
-                <Link href="/signup">
-                  <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
-                    <span className="text-[#8b0000] font-medium text-base font-poppins">
-                      Sign Up
-                    </span>
-                  </Button>
-                </Link>
+                {/* ✅ Auth / User Dropdown */}
+                {user ? (
+                  <div className="relative">
+                    <button
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                      className="flex items-center gap-2 px-4 py-2 bg-white rounded-[9px] hover:bg-white/90 border border-gray-200"
+                    >
+                      <UserIcon className="w-5 h-5 text-[#8b0000]" />
+                      <span className="text-[#8b0000] font-medium text-base font-poppins">
+                        {user.email.split("@")[0]}
+                      </span>
+                      <ChevronDownIcon className="w-5 h-5 text-[#8b0000]" />
+                    </button>
+
+                    {dropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-md p-2 z-50">
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center gap-2 text-left px-3 py-2 text-[#8b0000] hover:bg-gray-100 rounded-md"
+                        >
+                          <LogOutIcon className="w-4 h-4" /> Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <>
+                    <Link href="/login">
+                      <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
+                        <span className="text-[#8b0000] font-medium text-base font-poppins">
+                          Login
+                        </span>
+                      </Button>
+                    </Link>
+                    <Link href="/signup">
+                      <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
+                        <span className="text-[#8b0000] font-medium text-base font-poppins">
+                          Sign Up
+                        </span>
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
 
               {/* Mobile Dropdown */}
@@ -110,23 +167,32 @@ export const HeaderSectionInner: React.FC = () => {
                   ))}
 
                   <div className="flex items-center gap-4 border-t pt-4">
-                    {/* Mobile Cart → simple link */}
                     <Link href="/cart" className="relative">
                       <MiniCart />
                     </Link>
-
                     <SearchIcon className="w-6 h-6 text-[#242427]" />
 
-                    <Link href="/login">
-                      <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
-                        Login
-                      </Button>
-                    </Link>
-                    <Link href="/signup">
-                      <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
-                        Sign Up
-                      </Button>
-                    </Link>
+                    {user ? (
+                      <button
+                        onClick={handleLogout}
+                        className="flex-1 bg-[#8b0000] text-white rounded-md py-2"
+                      >
+                        Logout
+                      </button>
+                    ) : (
+                      <>
+                        <Link href="/login">
+                          <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
+                            Login
+                          </Button>
+                        </Link>
+                        <Link href="/signup">
+                          <Button className="flex-1 bg-[#8b0000] text-white rounded-md py-2">
+                            Sign Up
+                          </Button>
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
               )}

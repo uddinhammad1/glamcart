@@ -7,17 +7,16 @@ import { FooterSection } from "../../screens/Glamcart/sections/FooterSection/Foo
 import { HeaderSectionInner } from "../../screens/Glamcart/sections/HeaderSectionInner/HeaderSectionInner";
 import AddProductForm from "../../screens/Glamcart/sections/AddProductForm/AddProductForm";
 import ProductList from "../../screens/Glamcart/sections/ProductList/ProductList";
+import ContactList from "../../screens/Glamcart/sections/ContactList/ContactList";
 import type { Product } from "../../types/Product";
-
-
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [activeTab, setActiveTab] = useState<"products" | "contacts">("products");
   const router = useRouter();
 
-  // ✅ Auth check
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -30,7 +29,6 @@ export default function DashboardPage() {
         setUser(supabaseUser);
       }
     };
-
     getUser();
   }, [router]);
 
@@ -65,23 +63,57 @@ export default function DashboardPage() {
           Logout
         </button>
 
-        {/* Add/Edit Product Form */}
-        <div className="mt-8">
-          <AddProductForm
-            editProduct={editProduct}
-            onFinish={() => {
-              setEditProduct(null);
-              setRefreshKey((prev) => prev + 1); // 🔁 refresh product list
-            }}
-          />
+        {/* Tabs */}
+        <div className="mt-8 flex justify-center gap-6 border-b pb-2">
+          <button
+            onClick={() => setActiveTab("products")}
+            className={`px-6 py-2 font-semibold rounded-t-lg ${
+              activeTab === "products"
+                ? "bg-[#8b0000] text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            🛍 Products
+          </button>
+          <button
+            onClick={() => setActiveTab("contacts")}
+            className={`px-6 py-2 font-semibold rounded-t-lg ${
+              activeTab === "contacts"
+                ? "bg-[#8b0000] text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            💬 Contact Messages
+          </button>
         </div>
 
-        {/* Product List */}
-        <div className="mt-10">
-          <ProductList
-            key={refreshKey}
-            onEdit={(product) => setEditProduct(product)}
-          />
+        {/* Tab Content */}
+        <div className="mt-8">
+          {activeTab === "products" ? (
+            <>
+              {/* Add/Edit Product Form */}
+              <AddProductForm
+                editProduct={editProduct}
+                onFinish={() => {
+                  setEditProduct(null);
+                  setRefreshKey((prev) => prev + 1);
+                }}
+              />
+
+              {/* Product List */}
+              <div className="mt-10">
+                <ProductList
+                  key={refreshKey}
+                  onEdit={(product) => setEditProduct(product)}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Contact Messages Section */}
+              <ContactList />
+            </>
+          )}
         </div>
       </div>
 
