@@ -40,6 +40,9 @@ export const HeaderSection: React.FC = () => {
   const [showMiniCart, setShowMiniCart] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const { cart } = useCart();
 
   // ✅ Load user session
@@ -52,7 +55,7 @@ export const HeaderSection: React.FC = () => {
     };
     fetchUser();
 
-    // Real-time auth change listener
+    // Real-time auth listener
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -62,11 +65,32 @@ export const HeaderSection: React.FC = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // ✅ Logout
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setUser(null);
     setShowDropdown(false);
   };
+
+  // ✅ Product search logic
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      if (searchQuery.trim() === "") {
+        setSearchResults([]);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .ilike("name", `%${searchQuery}%`);
+
+      if (!error) setSearchResults(data || []);
+    };
+
+    const delay = setTimeout(fetchSearchResults, 400); // debounce
+    return () => clearTimeout(delay);
+  }, [searchQuery]);
 
   return (
     <header className="relative h-auto bg-transparent">
@@ -142,7 +166,7 @@ export const HeaderSection: React.FC = () => {
                 ))}
               </div>
 
-              {/* Right Side (Cart + Auth) */}
+              {/* Right Side (Cart + Auth + Search) */}
               <div className="flex items-center gap-4 ml-auto pr-[20px] relative">
                 {/* Mobile Menu Button */}
                 <button className="lg:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
@@ -161,9 +185,43 @@ export const HeaderSection: React.FC = () => {
                   </button>
                 </div>
 
-                <SearchIcon className="hidden lg:block w-7 h-7 text-white" />
+                {/* 🔍 Search */}
+                <div className="relative hidden lg:block">
+                  <button onClick={() => setShowSearch(!showSearch)} className="p-2">
+                    <SearchIcon className="w-7 h-7 text-white cursor-pointer" />
+                  </button>
 
-                {/* ✅ Show user or login/signup */}
+                  {showSearch && (
+                    <div className="absolute right-0 mt-2 bg-white shadow-md rounded-md p-3 w-72 z-50">
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search products..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#8b0000]"
+                      />
+                      {searchResults.length > 0 ? (
+                        <ul className="mt-2 max-h-60 overflow-y-auto">
+                          {searchResults.map((product: any) => (
+                            <li
+                              key={product.id}
+                              className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm text-[#242427]"
+                              onClick={() => (window.location.href = `/product/${product.id}`)}
+                            >
+                              {product.name}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        searchQuery && (
+                          <p className="text-gray-500 text-sm mt-2">No results found.</p>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* ✅ User or Login/Signup */}
                 {user ? (
                   <div className="relative">
                     <button
@@ -204,7 +262,7 @@ export const HeaderSection: React.FC = () => {
               </div>
             </nav>
 
-              {/* IMAGE */}
+            {/* IMAGE */}
             <img
               className="w-full max-w-[300px] sm:max-w-[540px] lg:w-[570px] h-auto mx-auto lg:mx-0 relative lg:absolute top-0 lg:top-[287px] left-0 lg:left-[150px] object-cover z-20"
               alt="Drop down img"
