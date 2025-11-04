@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function ThankYouPage() {
+function ThankYouContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
 
@@ -36,5 +37,19 @@ export default function ThankYouPage() {
         Continue Shopping
       </Link>
     </section>
+  );
+}
+
+export default function ThankYouPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="min-h-screen flex items-center justify-center text-gray-600">
+          Loading...
+        </section>
+      }
+    >
+      <ThankYouContent />
+    </Suspense>
   );
 }
