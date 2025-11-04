@@ -39,8 +39,8 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: "/thank-you",
-      cancel_url: "/checkout",
+      success_url: "https://glamcart-xi.vercel.app/thank-you",
+      cancel_url: "https://glamcart-xi.vercel.app/checkout",
       customer_email: body.email,
       line_items: body.items.map((item: any) => ({
         price_data: {
