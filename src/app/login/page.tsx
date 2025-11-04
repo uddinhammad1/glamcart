@@ -17,27 +17,39 @@ export default function LoginPage() {
         setLoading(true);
         setErrorMsg("");
 
+        // ✅ Sign in with email + password
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
 
+        if (error) {
+            setLoading(false);
+            setErrorMsg(error.message);
+            return;
+        }
+
+        // ✅ Get logged-in user
+        const { data: { user } } = await supabase.auth.getUser();
+
         setLoading(false);
 
-        if (error) {
-            setErrorMsg(error.message);
+        if (!user) {
+            setErrorMsg("Login failed. Try again.");
+            return;
+        }
+
+        // ✅ Store in localStorage (useful for cart + checkout)
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // ✅ Detect role
+        const role = user.user_metadata?.role;
+
+        // ✅ Redirect based on role
+        if (role === "admin") {
+            router.push("/admin/dashboard");
         } else {
-            // ✅ get the logged-in user
-            const { data: { user } } = await supabase.auth.getUser();
-
-            // ✅ check role from user_metadata
-            const role = user?.user_metadata?.role;
-
-            if (role === "admin") {
-                router.push("/admin/dashboard");
-            } else {
-                router.push("/customer/dashboard");
-            }
+            router.push("/customer/dashboard");
         }
     };
 

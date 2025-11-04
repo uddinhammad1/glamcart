@@ -1,37 +1,51 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string); // ✅ no apiVersion
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const { customer, cart } = await req.json();
 
-    if (!body.cart || body.cart.length === 0) {
+    if (!cart || cart.length === 0) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
-      customer_email: body.email,
-      shipping_address_collection: { allowed_countries: ["US", "CA"] },
-      line_items: body.cart.map((item: any) => ({
-        price_data: {
-          currency: "CAD",
-          product_data: {
-            name: item.name,
-            images: item.image ? [item.image] : [],
-          },
-          unit_amount: item.price * 100,
+    const lineItems = cart.map((item: any) => ({
+      price_data: {
+        currency: "PKR", // ✅ Change to CAD/PKR as needed
+        product_data: {
+          name: item.name,
+          images: item.image ? [item.image] : [],
         },
-        quantity: item.quantity,
-      })),
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: item.quantity,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: ["card"],
+      customer_email: customer.email,
+      shipping_address_collection: {
+        allowed_countries: ["PK", "US", "CA", "GB"],
+      },
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/checkout`,
+      line_items: lineItems,
+      metadata: {
+        full_name: customer.fullName,
+        phone: customer.phone,
+        address: customer.address,
+        city: customer.city,
+        postal_code: customer.postalCode,
+        country: customer.country,
+        cart: JSON.stringify(cart),
+      },
     });
 
     return NextResponse.json({ url: session.url });
+
   } catch (err: any) {
     console.error("Stripe Error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });

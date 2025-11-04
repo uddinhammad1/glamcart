@@ -11,6 +11,7 @@ import {
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent } from "../../../../components/ui/card";
 import { useCart } from "../../../../contexts/CartContext";
+import { MiniCart } from "../minicart/minicart";
 import { supabase } from "../../../../lib/supabaseClient";
 
 const statistics = [
@@ -185,6 +186,10 @@ export const HeaderSection: React.FC = () => {
                   </button>
                 </div>
 
+
+
+
+
                 {/* 🔍 Search */}
                 <div className="relative hidden lg:block">
                   <button onClick={() => setShowSearch(!showSearch)} className="p-2">
@@ -308,7 +313,7 @@ export const HeaderSection: React.FC = () => {
             </Card>
           </div>
         </div>
-      </div>
-    </header>
+      </div >
+    </header >
   );
 };

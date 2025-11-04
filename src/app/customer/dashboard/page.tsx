@@ -28,6 +28,25 @@ export default function CustomerDashboard() {
     router.push("/login");
   };
 
+  const [orders, setOrders] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (!error) setOrders(data || []);
+    };
+
+    fetchOrders();
+  }, []);
+
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
@@ -55,19 +74,26 @@ export default function CustomerDashboard() {
           </div>
 
           <div className="p-4 border rounded-lg bg-[#fefefe] shadow">
-            <h2 className="font-semibold mb-2">Orders</h2>
-            <p>You don’t have any orders yet.</p>
+            <h2 className="font-semibold mb-2">Your Orders</h2>
+
+            {orders.length === 0 ? (
+              <p>You don’t have any orders yet.</p>
+            ) : (
+              <ul className="space-y-2">
+                {orders.map((order) => (
+                  <li key={order.id} className="border p-3 rounded">
+                    <p><b>Product:</b> {order.product_name}</p>
+                    <p><b>Quantity:</b> {order.quantity}</p>
+                    <p><b>Total:</b> Rs {order.total_amount}</p>
+                    <p><b>Status:</b> {order.status}</p>
+                    <p className="text-sm text-gray-500">{new Date(order.created_at).toLocaleString()}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
-          <div className="p-4 border rounded-lg bg-[#fefefe] shadow">
-            <h2 className="font-semibold mb-2">Notifications</h2>
-            <p>No new notifications 📩</p>
-          </div>
-
-          <div className="p-4 border rounded-lg bg-[#fefefe] shadow">
-            <h2 className="font-semibold mb-2">Support</h2>
-            <p>Need help? Contact our support team.</p>
-          </div>
+          
         </div>
       </div>
     </div>
