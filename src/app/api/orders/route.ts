@@ -39,8 +39,8 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: "http://localhost:3000/thank-you",
-      cancel_url: "http://localhost:3000/checkout",
+      success_url: "/thank-you",
+      cancel_url: "/checkout",
       customer_email: body.email,
       line_items: body.items.map((item: any) => ({
         price_data: {

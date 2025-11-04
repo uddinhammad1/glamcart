@@ -70,7 +70,7 @@ export default function OrderList() {
                     ))}
                   </td>
 
-                  <td className="p-2 border">Rs {order.total_amount}</td>
+                  <td className="p-2 border">$ {order.total_amount}</td>
                   <td className="p-2 border font-semibold">{order.status}</td>
                   <td className="p-2 border text-sm">
                     {new Date(order.created_at).toLocaleString()}
