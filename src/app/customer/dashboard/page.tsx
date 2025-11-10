@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient"; // adjust path if needed
 import { useRouter } from "next/navigation";
-
+import { HeaderSectionInner } from "../../screens/Glamcart/sections/HeaderSectionInner/HeaderSectionInner";
+import { FooterSection } from "../../screens/Glamcart/sections/FooterSection/FooterSection";
 export default function CustomerDashboard() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -51,6 +52,17 @@ export default function CustomerDashboard() {
 
   return (
     <div className="min-h-screen bg-[#f9fdee] p-8">
+      {/* Header */}
+      <div className="w-full relative pb-10">
+        <div className="bg-[#f9fdee] max-w-[1250px] mx-auto w-full">
+          <HeaderSectionInner />
+          <img
+            className="absolute w-24 md:w-[100px] h-auto top-6 left-[80px] object-contain"
+            alt="Logo"
+            src="/logo-1.png"
+          />
+        </div>
+      </div>
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Customer Dashboard</h1>
@@ -93,7 +105,13 @@ export default function CustomerDashboard() {
             )}
           </div>
 
-          
+
+        </div>
+      </div>
+      {/* Footer */}
+      <div className="w-full bg-[#242427] mt-10">
+        <div className="bg-[#f9fdee] max-w-[1250px] mx-auto w-full">
+          <FooterSection />
         </div>
       </div>
     </div>

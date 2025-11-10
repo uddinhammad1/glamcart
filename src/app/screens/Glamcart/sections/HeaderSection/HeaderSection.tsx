@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import {
   ChevronDownIcon,
@@ -38,13 +38,14 @@ const navigationItems = [
 
 export const HeaderSection: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showMiniCart, setShowMiniCart] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [showMiniCart, setShowMiniCart] = useState(false);
   const { cart } = useCart();
+  const miniCartRef = useRef<HTMLDivElement>(null);
 
   // ✅ Load user session
   useEffect(() => {
@@ -92,6 +93,18 @@ export const HeaderSection: React.FC = () => {
     const delay = setTimeout(fetchSearchResults, 400); // debounce
     return () => clearTimeout(delay);
   }, [searchQuery]);
+
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (miniCartRef.current && !miniCartRef.current.contains(event.target as Node)) {
+        setShowMiniCart(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   return (
     <header className="relative h-auto bg-transparent">
@@ -174,16 +187,34 @@ export const HeaderSection: React.FC = () => {
                   {menuOpen ? <XIcon className="w-7 h-7 text-[#8b0000]" /> : <MenuIcon className="w-7 h-7 text-[#8b0000]" />}
                 </button>
 
-                {/* Cart */}
-                <div className="relative hidden lg:block">
-                  <button onClick={() => setShowMiniCart(!showMiniCart)} className="relative">
-                    <ShoppingCartIcon className="w-7 h-7 text-white" />
+                <div className="relative hidden lg:block" ref={miniCartRef}>
+                  <button
+                    className="relative flex items-center justify-center"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMiniCart((prev) => !prev);
+                    }}
+                  >
+                    <ShoppingCartIcon
+                      className={`w-7 h-7 transition-colors duration-200 ${showMiniCart ? "text-[#8b0000]" : "text-white"
+                        }`}
+                    />
+
                     {cart.length > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-[#8b0000] text-white text-xs rounded-full px-2 py-0.5">
+                      <span className="absolute -top-2 -right-2 bg-[#8b0000] text-white text-xs font-semibold rounded-full px-[6px] py-[1px] leading-none">
                         {cart.length}
                       </span>
                     )}
                   </button>
+
+                  {showMiniCart && (
+                    <div
+                      className="absolute right-0 top-10 z-[200]"
+                      onClick={(e) => e.stopPropagation()} // Ignore clicks inside minicart
+                    >
+                      <MiniCart />
+                    </div>
+                  )}
                 </div>
 
 
@@ -229,16 +260,31 @@ export const HeaderSection: React.FC = () => {
                 {/* ✅ User or Login/Signup */}
                 {user ? (
                   <div className="relative">
+                    {/* Username + Dashboard Navigation */}
                     <button
-                      onClick={() => setShowDropdown(!showDropdown)}
+                      onClick={() => {
+                        if (user?.email === "admin@example.com") {
+                          window.location.href = "/admin/dashboard";
+                        } else {
+                          window.location.href = "/customer/dashboard";
+                        }
+                      }}
                       className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90"
                     >
-                      <span className="text-[#8b0000] font-medium text-base font-poppins">
-                        {user.email}
+                      <span className="text-[#8b0000] font-medium text-base font-poppins mr-3">
+                        {user.email.split("@")[0]}
                       </span>
+                    </button>
+
+                    {/* Dropdown Toggle (Arrow) */}
+                    <button
+                      onClick={() => setShowDropdown(!showDropdown)}
+                      className="absolute top-1/2 right-3 transform -translate-y-1/2 hidden lg:block"
+                    >
                       <ChevronDownIcon className="w-4 h-4 text-[#8b0000]" />
                     </button>
 
+                    {/* Dropdown Content */}
                     {showDropdown && (
                       <div className="absolute right-0 mt-2 bg-white shadow-md rounded-md w-40 py-2 z-50">
                         <button
@@ -254,18 +300,69 @@ export const HeaderSection: React.FC = () => {
                   <>
                     <Link href="/login">
                       <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
-                        <span className="text-[#8b0000] font-medium text-base font-poppins">Login</span>
+                        <span className="text-[#8b0000] font-medium text-base font-poppins">
+                          Login
+                        </span>
                       </Button>
                     </Link>
                     <Link href="/signup">
                       <Button className="hidden lg:flex h-auto items-center gap-2.5 px-6 py-3 bg-white rounded-[9px] hover:bg-white/90">
-                        <span className="text-[#8b0000] font-medium text-base font-poppins">Sign Up</span>
+                        <span className="text-[#8b0000] font-medium text-base font-poppins">
+                          Sign Up
+                        </span>
                       </Button>
                     </Link>
                   </>
                 )}
               </div>
             </nav>
+
+            {menuOpen && (
+              <div className="relative top-full left-0 w-full bg-white shadow-lg z-[999] py-4 px-6 lg:hidden">
+                {navigationItems.map((item, index) => (
+                  <Link key={index} href={item.href} onClick={() => setMenuOpen(false)}>
+                    <div className="py-3 border-b border-gray-200 text-[#242427] font-medium">
+                      {item.label}
+                    </div>
+                  </Link>
+                ))}
+
+                {/* Cart button for mobile */}
+                <div className="flex items-center justify-between mt-4">
+                  <Link href="/cart" onClick={() => setMenuOpen(false)} className="flex items-center gap-2">
+                    <ShoppingCartIcon className="w-6 h-6 text-[#8b0000]" />
+                    <span className="font-medium text-[#8b0000]">Cart ({cart.length})</span>
+                  </Link>
+                </div>
+
+                {/* Login / User */}
+                <div className="mt-4">
+                  {user ? (
+                    <>
+                      <Link href="/customer/dashboard" onClick={() => setMenuOpen(false)}>
+                        <div className="py-3 text-[#8b0000] font-medium">Dashboard</div>
+                      </Link>
+                      <button
+                        onClick={() => { handleLogout(); setMenuOpen(false); }}
+                        className="py-3 text-left w-full text-[#8b0000] font-medium"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/login" onClick={() => setMenuOpen(false)}>
+                        <div className="py-3 text-[#8b0000] font-medium">Login</div>
+                      </Link>
+                      <Link href="/signup" onClick={() => setMenuOpen(false)}>
+                        <div className="py-3 text-[#8b0000] font-medium">Sign Up</div>
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+
 
             {/* IMAGE */}
             <img
