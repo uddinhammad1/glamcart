@@ -189,14 +189,14 @@ export const HeaderSection: React.FC = () => {
 
                 <div className="relative hidden lg:block" ref={miniCartRef}>
                   <button
-                    className="relative flex items-center justify-center"
+                    className="relative flex items-center justify-center text-white"
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowMiniCart((prev) => !prev);
                     }}
                   >
                     <ShoppingCartIcon
-                      className={`w-7 h-7 transition-colors duration-200 ${showMiniCart ? "text-[#8b0000]" : "text-white"
+                      className={`w-7 h-7 "
                         }`}
                     />
 

@@ -30,8 +30,8 @@ export async function POST(req: Request) {
       shipping_address_collection: {
         allowed_countries: ["PK", "US", "CA", "GB"],
       },
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/checkout`,
+      success_url: `https://glamcart-xi.vercel.app/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://glamcart-xi.vercel.app/checkout`,
       line_items: lineItems,
       metadata: {
         full_name: customer.fullName,

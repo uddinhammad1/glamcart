@@ -17,6 +17,7 @@ interface Product {
 export const MostPopularProductsSection: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const { addToCart } = useCart();
+  const [message, setMessage] = useState(""); // ✅ MESSAGE STATE
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,7 +38,16 @@ export const MostPopularProductsSection: React.FC = () => {
 
   return (
     <section className="w-full relative px-4 sm:px-6 lg:px-12 py-12">
+      
+      {/* ✅ SUCCESS MESSAGE */}
+      {message && (
+        <div className="mb-6 p-3 bg-green-600 text-white text-center rounded-lg">
+          {message}
+        </div>
+      )}
+
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
+
         {/* Left Text Section */}
         <div className="flex-1 max-w-full lg:max-w-[390px]">
           <h2 className="font-montserrat font-semibold text-[#242427] 
@@ -53,6 +63,7 @@ export const MostPopularProductsSection: React.FC = () => {
             lasting finish. From bold lips to flawless blends, these picks never
             go out of trend.
           </p>
+
           <Link href="/about">
             <Button className="h-auto bg-[#8b0000] hover:bg-[#8b0000]/90 rounded-[9px] 
                              px-5 sm:px-6 py-2.5 sm:py-3 gap-2.5">
@@ -72,6 +83,7 @@ export const MostPopularProductsSection: React.FC = () => {
         <div className="flex-1 w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 
                           overflow-x-auto lg:overflow-visible pb-4">
+            
             {products.map((product) => (
               <Card
                 key={product.id}
@@ -79,6 +91,7 @@ export const MostPopularProductsSection: React.FC = () => {
                            shadow-[0px_4px_39.3px_#2424270a] flex-shrink-0"
               >
                 <CardContent className="p-4 flex flex-col h-full">
+                  
                   {/* Product Image */}
                   <div className="flex justify-center mb-4">
                     <img
@@ -100,15 +113,20 @@ export const MostPopularProductsSection: React.FC = () => {
                                       text-sm sm:text-base">
                       ${product.price}
                     </span>
+
                     <button
-                      onClick={() =>
+                      onClick={() => {
                         addToCart({
                           id: product.id,
                           name: product.name,
                           price: product.price,
                           image: product.image_url,
-                        })
-                      }
+                        });
+
+                        // ✅ Show message
+                        setMessage(`${product.name} added to cart!`);
+                        setTimeout(() => setMessage(""), 2000);
+                      }}
                     >
                       <img
                         className="w-6 h-6 sm:w-[27px] sm:h-[23px]"
@@ -116,10 +134,12 @@ export const MostPopularProductsSection: React.FC = () => {
                         src="/button-5.svg"
                       />
                     </button>
+
                   </div>
                 </CardContent>
               </Card>
             ))}
+
           </div>
         </div>
       </div>

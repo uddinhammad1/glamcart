@@ -19,9 +19,11 @@ export const FeaturedProductsSection = (): React.ReactElement => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [message, setMessage] = useState(""); // ✅ MESSAGE STATE
+
   const { addToCart } = useCart();
 
-  // ✅ Fetch last 7 products
+  // Fetch last 7 products
   useEffect(() => {
     const fetchProducts = async () => {
       const { data, error } = await supabase
@@ -52,6 +54,14 @@ export const FeaturedProductsSection = (): React.ReactElement => {
   return (
     <section className="w-full bg-white">
       <div className="max-w-[1200px] mx-auto px-4 py-10 md:py-16">
+
+        {/* ✅ SUCCESS MESSAGE */}
+        {message && (
+          <div className="mb-6 p-3 bg-green-600 text-white text-center rounded-lg">
+            {message}
+          </div>
+        )}
+
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-10 md:mb-16">
           <div className="max-w-2xl">
@@ -78,7 +88,7 @@ export const FeaturedProductsSection = (): React.ReactElement => {
           </Link>
         </div>
 
-        {/* ✅ Featured & Small Products */}
+        {/* Featured Products */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
           {products.map((product, index) => (
             <Card
@@ -93,24 +103,33 @@ export const FeaturedProductsSection = (): React.ReactElement => {
                   alt={product.name}
                   src={product.image_url || "/placeholder.png"}
                 />
+
                 <h3 className="[font-family:'Montserrat',Helvetica] font-semibold text-black text-lg md:text-xl mb-2">
                   <Link href={`/product/${product.id}`}>{product.name}</Link>
                 </h3>
-                
+
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   <span className="text-[#8b0000] text-lg md:text-xl font-semibold">
                     ${product.price}
                   </span>
                 </div>
+
+                {/* ADD TO CART WITH MESSAGE */}
                 <Button
-                  onClick={() =>
+                  onClick={() => {
                     addToCart({
                       id: product.id,
                       name: product.name,
                       price: product.price,
                       image: product.image_url,
-                    })
-                  }
+                    });
+
+                    // ✅ Set success message
+                    setMessage(`${product.name} added to cart!`);
+
+                    // Auto-hide after 2 seconds
+                    setTimeout(() => setMessage(""), 2000);
+                  }}
                   className="flex items-center gap-2 bg-[#8b0000] hover:bg-[#8b0000]/90 rounded-[9px] px-5 py-2 text-sm md:text-base"
                 >
                   <span className="[font-family:'Poppins',Helvetica] text-white">
